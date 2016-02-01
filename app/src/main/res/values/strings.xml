@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">RanaPromo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="title_activity_main">Main</string>
+
+    <string name="title_section1">Home</string>
+    <string name="title_section2">Promotions</string>
+    <string name="title_section3">Trending</string>
+    <string name="title_section4">Marque</string>
+    <string name="title_section5">Mes favories</string>
+    <string name="title_section6">Mon compte</string>
+    <string name="title_section7">Aide</string>
+    <string name="title_section8">A propo</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="action_search">SearchBar</string>
+    <string name="title_activity_marque">MarqueActivity</string>
+    <string name="textTest">
+        Details: \n
+        Système	Android 5.0 \n
+        Interface utilisateur	TouchWizz \n
+        Processeur	Qualcomm Snapdragon 801 \n
+        Nombre de coeurs	4 \n
+        Fréquence processeur	2,5 GHz \n
+        Puce graphique	Qualcomm Adreno 330 \n
+        Support cartes mémoire	MicroSD, MicroSDHC et MicroSDXC \n
+        Info \n
+        Mémoire vive (RAM)	2048 Mo \n
+        Mémoire flash Libre (Mo)	11800 \n
+        Info \n
+        Indice DAS (W/kg)	0.56 \n
+        double SIM	Non \n
+        Carte mémoire incluse	Non \n
+        Clavier	Pas de clavier physique \n
+        Magasin d applications	Play Store \n
+        Support du Wi-Fi	802.11n/ac \n
+        Support de l infra-rouge (IrDA)	Oui \n
+        Support du Bluetooth	Oui \n
+        Version Bluetooth	4.0 \n
+        Interface PC	USB 3.0 \n
+        Support du NFC	Oui (activé) \n
+        Type de connecteur USB	Micro USB \n
+        Info \n
+        Compatibilité USB Host	Oui \n
+        Câble USB Host	Non \n
+        Sortie TV (numérique)	via micro-USB (MHL) \n
+        Câble vidéo fourni	Non \n
+        Sortie casque	1 \n
+        format prise casque	Jack 3.5 mm \n
+    </string>
+    <string name="title_activity_favorie">Vos favorie</string>
+    <string name="title_activity_splash">SplashActivity</string>
+</resources>

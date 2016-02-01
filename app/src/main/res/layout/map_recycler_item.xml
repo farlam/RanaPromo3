@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginTop="8dp">
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:id="@+id/lieu_text"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        tools:text="Boumerdas"
+        android:layout_gravity="center_vertical"
+        />
+    <TextView
+        android:gravity="center_horizontal"
+        android:id="@+id/name_text"
+        android:layout_width="0dp"
+        android:layout_weight="1.7"
+        android:layout_height="wrap_content"
+        tools:text="Showroom Said Hamdine"
+        android:layout_gravity="center_vertical"
+        />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_weight="1.2"
+        android:layout_height="80dp"
+        tools:background="@drawable/sam_01"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.7"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:src="@drawable/ic_place"/>
+        <TextView
+            android:id="@+id/distance_text"
+            android:paddingTop="8dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="12.5km"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+</LinearLayout>

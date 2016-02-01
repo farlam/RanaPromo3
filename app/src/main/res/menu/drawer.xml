@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_mes_favorie"
+            android:checked="true"
+            android:icon="@drawable/ic_promos"
+            android:title="Mes favoris"/>
+        <item
+            android:id="@+id/drawer_promo_de_semaine"
+            android:icon="@drawable/ic_nouveautes"
+            android:title="Promo de la semaine"/>
+
+        <item
+            android:id="@+id/drawer_marque"
+            android:icon="@drawable/ic_home"
+            android:title="Marques"/>
+
+        <item
+            android:id="@+id/drawer_notification"
+            android:icon="@drawable/ic_populaires"
+            android:title="Mes notifications"/>
+
+        <item
+            android:id="@+id/drawer_aides"
+            android:icon="@drawable/ic_fav_select"
+            android:title="Aides" />
+        <item
+            android:id="@+id/drawer_apropos"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="A propos" />
+
+    </group>
+
+</menu>

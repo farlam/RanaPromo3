@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="@dimen/cardview_default_radius"
+    card_view:cardElevation="@dimen/cardview_default_elevation" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+        <ImageView
+                android:id="@+id/imageButton2"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/adidas" />
+
+           <FrameLayout
+               android:paddingEnd="8dp"
+               android:paddingRight="8dp"
+               android:layout_width="44dp"
+               android:layout_height="48dp"
+               android:layout_alignParentTop="true"
+               android:layout_alignParentRight="true"
+               android:layout_alignParentEnd="true">
+
+               <ImageView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/red_tag"
+
+                android:id="@+id/imageView2"/>
+
+               <LinearLayout
+
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:layout_gravity="center">
+
+                   <TextView
+                       android:paddingTop="8dp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="REMISE"
+                       android:textSize="8sp"
+                       android:layout_gravity="center_horizontal"
+
+                       android:textColor="@color/white"/>
+                   <TextView
+                        android:id="@+id/reduction"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       android:textStyle="bold"
+                       android:textColor="@color/white"
+                       android:text="20%"
+                       android:textSize="14sp"/>
+               </LinearLayout>
+
+           </FrameLayout>
+
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/grey300"/>
+
+
+            <TextView
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:id="@+id/promo_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:text="Renault Captur"
+                android:textSize="14sp"
+                android:textColor="@color/primaryColor"/>
+
+            <TextView
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:id="@+id/old_promo_prix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:textSize="12sp"
+                android:text="1.900.000 DZD"
+                android:textColor="@color/grey300"
+                android:layout_below="@+id/promo_name"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/new_promo_prix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="1.500.000 DZD"
+                android:layout_marginLeft="16dp"
+
+                android:layout_below="@+id/promo_name"
+                android:layout_toRightOf="@+id/old_promo_prix"
+                android:layout_toEndOf="@+id/old_promo_prix"/>
+
+            <TextView
+                android:id="@+id/count_down_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:textSize="12sp"
+                android:text="4j 20h 13m"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/black"
+                android:layout_below="@+id/promo_name"
+                android:layout_toRightOf="@+id/new_promo_prix"
+                android:layout_toEndOf="@+id/new_promo_prix"/>
+
+
+            <ImageView
+                android:id="@+id/star_image"
+                android:paddingTop="@dimen/icon_padding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_fav_unselect"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/share_image"
+                android:layout_toStartOf="@+id/share_image"/>
+
+            <ImageView
+                android:id="@+id/share_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_share_black_24dp"
+                android:alpha="0.54"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

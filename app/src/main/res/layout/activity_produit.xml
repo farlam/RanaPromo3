@@ -1,0 +1,272 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.PromoDetailActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+    <!---->
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <android.support.v4.view.ViewPager
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/viewpager_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="150dp"
+                        android:repeatCount="infinite"/>
+                    <!--android:background="@drawable/ad_banner"-->
+
+
+                    <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/indicator_default"
+                        android:layout_alignBottom="@+id/viewpager_default"
+                        android:layout_width="match_parent"
+                        android:background="@color/darkPrimaryColor"
+                        android:alpha="0.54"
+                        android:layout_height="20dp"/>
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:elevation="4dp">
+
+
+                    <FrameLayout
+                        android:paddingEnd="12dp"
+                        android:paddingRight="12dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/frameLayout">
+
+                        <ImageView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/red_tag"
+
+                            android:id="@+id/imageView2"/>
+
+                        <LinearLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_gravity="center">
+
+                            <TextView
+                                android:paddingTop="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="REMISE"
+                                android:textSize="8sp"
+                                android:layout_gravity="center_horizontal"
+
+                                android:textColor="@color/white"/>
+                            <TextView
+                                android:id="@+id/reduction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:text="20%"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+
+                    <TextView
+                        android:id="@+id/promo_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:text="Renault Captur"
+                        android:paddingEnd="12dp"
+                        android:paddingRight="12dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/primaryColor"
+                        android:layout_alignParentTop="true"
+                        android:layout_toLeftOf="@+id/frameLayout"
+                        android:layout_toStartOf="@+id/frameLayout"/>
+
+                    <ImageView
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/old_promo_prix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/sam_01"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"/>
+
+                    <TextView
+                        android:id="@+id/new_promo_prix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="1.500.000 DZD"
+                        android:paddingEnd="12dp"
+                        android:paddingRight="12dp"
+                        android:layout_below="@+id/promo_name"
+                        android:layout_alignRight="@+id/promo_name"
+                        android:layout_alignEnd="@+id/promo_name"/>
+
+                    <TextView
+                        android:id="@+id/count_down_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="4j 20h 13m"
+                        android:paddingEnd="12dp"
+                        android:paddingRight="12dp"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/new_promo_prix"
+                        android:layout_alignRight="@+id/new_promo_prix"
+                        android:layout_alignEnd="@+id/new_promo_prix"/>
+
+
+
+                </RelativeLayout>
+
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/card_view"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="?attr/actionBarSize"
+                    card_view:cardCornerRadius="4dp">
+                <LinearLayout
+                    android:background="@color/grey50"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                    android:id="@+id/detail_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="24dp"
+                    android:paddingLeft="24dp"
+                    android:text="@string/textTest" />
+
+                </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/black"
+        android:alpha="0.9"
+        app:layout_anchor="@id/nested_view"
+        app:layout_anchorGravity="bottom">
+
+        <ImageView
+            android:padding="8dp"
+            android:layout_marginLeft="24dp"
+            android:id="@+id/star_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:alpha="1"
+            android:background="@drawable/ic_fav_select"/>
+
+        <ImageView
+            android:padding="8dp"
+            android:layout_marginLeft="24dp"
+            android:id="@+id/share_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_share_white_24dp"
+            android:layout_toRightOf="@+id/star_image"
+            android:layout_toEndOf="@+id/star_image"/>
+
+        <TextView
+            android:id="@+id/ou_acheter"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="OU ACHETER"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24dp"
+            android:clickable="true"/>
+
+        </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
