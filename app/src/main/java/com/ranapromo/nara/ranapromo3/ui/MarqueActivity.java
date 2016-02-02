@@ -3,6 +3,7 @@ package com.ranapromo.nara.ranapromo3.ui;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -18,8 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ranapromo.nara.ranapromo3.Data.HomeData;
+import com.ranapromo.nara.ranapromo3.Data.Marque;
+import com.ranapromo.nara.ranapromo3.Data.MarqueDataHolder;
+import com.ranapromo.nara.ranapromo3.adapters.HomeRecyclerAdapter;
 import com.ranapromo.nara.ranapromo3.adapters.MarqueRecyclerAdapter;
 import com.ranapromo.nara.ranapromo3.R;
+import com.ranapromo.nara.ranapromo3.comman.DataBaseHelper;
+import com.ranapromo.nara.ranapromo3.comman.Util;
+
 
 
 import java.util.ArrayList;
@@ -30,6 +37,10 @@ import java.util.List;
  */
 public class MarqueActivity extends AppCompatActivity {
 
+    private ArrayList<Marque> mak_list;
+    RecyclerView mRecyclerview;
+    RecyclerView.Adapter mAdapter;
+    DataBaseHelper da;
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
@@ -55,6 +66,11 @@ public class MarqueActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = this.getIntent().getExtras();
+        if(extras != null){
+
+        }
+        mak_list = new ArrayList<Marque>();
         setContentView(R.layout.activity_marque);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -65,7 +81,7 @@ public class MarqueActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Marques");
 
 
-        RecyclerView mRecyclerview = (RecyclerView) findViewById(R.id.marque_recycler_view);
+        mRecyclerview = (RecyclerView) findViewById(R.id.marque_recycler_view);
 
         // set item decoration to the recyclerview
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
@@ -74,10 +90,11 @@ public class MarqueActivity extends AppCompatActivity {
         GridLayoutManager mLayoutManager = new GridLayoutManager(this,3);
         mRecyclerview.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new MarqueRecyclerAdapter(this,DummyData());
+        mAdapter = new MarqueRecyclerAdapter(this,mak_list);
         mRecyclerview.setAdapter(mAdapter);
 
-
+        da = new DataBaseHelper(this);
+        new MyAss().execute();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +105,44 @@ public class MarqueActivity extends AppCompatActivity {
                         .setAction("Action", null).show();*/
             }
         });
+    }
+
+    class MyAss extends AsyncTask<Void, Marque, Void> {
+
+        MarqueRecyclerAdapter adapter;
+
+        @Override
+        protected void onPreExecute() {
+
+            adapter = (MarqueRecyclerAdapter) mRecyclerview.getAdapter();
+        }
+
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                da.open();
+                Marque[] items = da.getMarques();
+                da.close();
+                Util.logDebug("adding All Marque  to the list custom list " + items.length);
+                for(Marque item:items){
+                    publishProgress(item);
+                }
+            } catch (Exception e) {
+                Util.logError("Error loding file  "+e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onProgressUpdate(Marque... values) {
+            Util.logDebug(values[0].getMarNom());
+            adapter.add(values[0]);
+        }
     }
 
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ranapromo.nara.ranapromo3.Data.Marque;
 import com.ranapromo.nara.ranapromo3.Data.Store;
 import com.ranapromo.nara.ranapromo3.R;
 
@@ -29,6 +30,11 @@ public class StoreLocationRecyclerAdapter extends RecyclerView.Adapter<StoreLoca
         this.data = data;
     }
 
+    public void add(Store marque){
+        data.add(0,marque);
+        notifyItemInserted(0);
+    }
+
     @Override
     public StoreLocationRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = inflater.inflate(R.layout.map_recycler_item, viewGroup, false);
@@ -40,10 +46,10 @@ public class StoreLocationRecyclerAdapter extends RecyclerView.Adapter<StoreLoca
     public void onBindViewHolder(StoreLocationRecyclerAdapter.ViewHolder viewHolder, int position) {
         Store current = data.get(position);
 
-        viewHolder.img.setBackgroundResource(current.image_ID);
-        viewHolder.lieu.setText(current.lieu);
-        viewHolder.distance.setText(current.distance);
-        viewHolder.name.setText(current.name);
+        //viewHolder.img.setBackgroundResource(current.image_ID);
+        viewHolder.lieu.setText(current.getStoLieu());
+        viewHolder.distance.setText("0 KM");
+        viewHolder.name.setText(current.getStoName());
 
     }
 

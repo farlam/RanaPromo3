@@ -11,7 +11,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Main"
+            android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -21,33 +21,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Main"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Main"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.PromoDetailActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_marque"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.FavorieActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_favorie"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.MarqueDetail"
             android:label="@string/title_activity_marque"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.MarqueActivity"
             android:label="@string/title_activity_marque"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.StoreActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StoreActivity"
             android:label="StoreActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.StoreLocationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StoreLocationActivity"
             android:label="MapActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

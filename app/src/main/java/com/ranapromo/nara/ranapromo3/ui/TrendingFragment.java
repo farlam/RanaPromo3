@@ -13,7 +13,9 @@ import com.ranapromo.nara.ranapromo3.Data.Promotion;
 import com.ranapromo.nara.ranapromo3.R;
 import com.ranapromo.nara.ranapromo3.adapters.MyTrendingAdapter;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /***
@@ -55,9 +57,9 @@ public class TrendingFragment extends Fragment {
         List<Promotion> promotions = new ArrayList<>();
 
         int imgs[] = {R.drawable.captur,R.drawable.adidas,R.drawable.levis,R.drawable.captur,R.drawable.adidas,R.drawable.levis};
-        String[] oldPrice = {"15.000 DA","10.500 DA","6.800 DA","15.000 DA","10.500 DA","6.800 DA"};
+        String[] oldPrice = {"15.000","10.500","6.800","15.000","10.500","6.800"};
         String[] newPrice = {"12.500 DA","9.900 DA","6.000 DA","7.500 DA","8.400 DA","5.800 DA"};
-        String[] reduc = {"25%","10%","5%","50%","25%","10%"};
+        String[] reduc = {"25","10","5","50","25","10"};
         String[] timeLeft = {"5j 20h 17m","3j 10h 51m","09j 08h 54m","15j 02h 10m","14j 20h 17m","00j 06h 15m"};
         String[] pName = {"Promo1","Promo2","Promo3","Promo4","Promo5","Promo6"};
         String[] mName = {"Adidas","Samsung","Nike","Adidas","Samsung","Nike"};
@@ -66,20 +68,21 @@ public class TrendingFragment extends Fragment {
         for(int i=0;i<pName.length;i++)
         {
             Promotion current = new Promotion();
-            current.oldPrice = oldPrice[i];
-            current.newPrice = newPrice[i];
-            current.reduction = reduc[i];
-            current.timeLeft = timeLeft[i];
-            current.promotionName = pName[i];
-            current.marqueName = mName[i];
-            current.image_ID = imgs[i];
-            current.description = description;
-            current.favorite = 0;
-
+            current.setProEndDate(new Date());
+            current.setProPrix(Double.parseDouble(oldPrice[i]));
+            //current.newPrice = newPrice[i]; ce champs est calculable
+            current.setProTauxRed(Double.parseDouble(reduc[i]));
+            //current.timeLeft = timeLeft[i]; ce champ est calculable
+            current.setProDes(pName[i]);
+            //current.marqueName = mName[i];//if faut trouver une solution pour avoir le nom de la marque aussi
+            current.setProDes(description);
+            current.setFavorite(false);
             promotions.add(current);
         }
         return  promotions;
     }
+
+
 }
 
 

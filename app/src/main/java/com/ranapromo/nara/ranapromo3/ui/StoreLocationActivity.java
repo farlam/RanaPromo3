@@ -2,6 +2,7 @@ package com.ranapromo.nara.ranapromo3.ui;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -15,9 +16,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.ranapromo.nara.ranapromo3.Data.Marque;
 import com.ranapromo.nara.ranapromo3.Data.Store;
+import com.ranapromo.nara.ranapromo3.adapters.MarqueRecyclerAdapter;
 import com.ranapromo.nara.ranapromo3.adapters.StoreLocationRecyclerAdapter;
 import com.ranapromo.nara.ranapromo3.R;
+import com.ranapromo.nara.ranapromo3.comman.DataBaseHelper;
+import com.ranapromo.nara.ranapromo3.comman.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,27 +31,65 @@ import java.util.List;
  * activity to find the location of every store
  */
 public class StoreLocationActivity extends AppCompatActivity {
-
+    private ArrayList<Store> mak_list;
+    private StoreLocationRecyclerAdapter adapter;
+    RecyclerView mRecyclerview;
+    DataBaseHelper da;
     @Nullable
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_map);
-
+        String val = getIntent().getStringExtra("marque");
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
+        mak_list = new ArrayList<Store>();
         // getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false); // pas de titre
-
-        RecyclerView mRecyclerview =(RecyclerView) findViewById(R.id.recyclerview_view);
+        adapter = new StoreLocationRecyclerAdapter(this, mak_list);
+        mRecyclerview =(RecyclerView) findViewById(R.id.recyclerview_view);
         mRecyclerview.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerview.setAdapter(new StoreLocationRecyclerAdapter(this,DummyData()));
+        mRecyclerview.setAdapter(adapter);
+        new MyAss().execute(val);
+
+    }
 
 
+    class MyAss extends AsyncTask<String, Store, Void> {
+
+        StoreLocationRecyclerAdapter adapter;
+
+        @Override
+        protected void onPreExecute() {
+          adapter = (StoreLocationRecyclerAdapter) mRecyclerview.getAdapter();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                da = new DataBaseHelper(StoreLocationActivity.this);
+                da.open();
+                Store[] items = da.getAllStoreByMarque(params[0]);
+                da.close();
+                Util.logDebug("adding All Store  to the list custom list " + items.length);
+                for(Store item:items){
+                    publishProgress(item);
+                }
+            } catch (Exception e) {
+                Util.logError("Error loding file  "+e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onProgressUpdate(Store... values) {
+            Util.logDebug(values[0].getMarNom());
+            adapter.add(values[0]);
+        }
     }
 
     public static List<Store> DummyData(){
@@ -69,10 +112,10 @@ public class StoreLocationActivity extends AppCompatActivity {
         {
 
             Store current = new Store();
-            current.lieu = lieux[i];
-            current.image_ID = imgs[i];
-            current.name = noms[i];
-            current.distance = dis[i];
+            current.setStoLieu(lieux[i]);
+            //current.setS= imgs[i];
+            current.setStoName(noms[i]);
+            //current.setStodis[i];
 
             data.add(current);
         }

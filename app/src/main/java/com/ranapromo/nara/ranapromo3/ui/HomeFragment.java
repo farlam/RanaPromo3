@@ -1,21 +1,29 @@
 package com.ranapromo.nara.ranapromo3.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ranapromo.nara.ranapromo3.Data.MarqueDataHolder;
+import com.ranapromo.nara.ranapromo3.Data.Promotion;
 import com.ranapromo.nara.ranapromo3.R;
 import com.ranapromo.nara.ranapromo3.adapters.HomeRecyclerAdapter;
 import com.ranapromo.nara.ranapromo3.adapters.HomeViewPagerAdapter;
 import com.ranapromo.nara.ranapromo3.Data.HomeData;
+import com.ranapromo.nara.ranapromo3.adapters.MyPromoAdapter;
+import com.ranapromo.nara.ranapromo3.comman.DataBaseHelper;
+import com.ranapromo.nara.ranapromo3.comman.Util;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +34,20 @@ import me.relex.circleindicator.CircleIndicator;
  * fragment of the first tab
  ***/
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment  {
+    private ArrayList<MarqueDataHolder> mak_list;
 
-    List<HomeData> emptyData = new ArrayList<>(); // empty list for test
+    RecyclerView mRecyclerview;
+    RecyclerView.Adapter mAdapter;
+    private  Context contex;
+
+
+    /*@Override
+      public void onResume() {
+        Util.logDebug("Fragment Home resumed");
+        new MyAss().execute();
+        super.onResume();
+    }*/
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
@@ -50,37 +69,32 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-
-    @Nullable
     @Override
+    public void onAttach(Context context) {
+        Util.logDebug("Fragment attached to activies");
+        this.contex = context;
+        super.onAttach(context);
+    }
+
+    /*@Nullable
+    @
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
+        mak_list = new ArrayList<MarqueDataHolder>();
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-         RecyclerView mRecyclerview = (RecyclerView) view.findViewById(R.id.home_recycler_view);
+        mRecyclerview = (RecyclerView) view.findViewById(R.id.home_recycler_view);
 
         // test
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
         mRecyclerview.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
         GridLayoutManager mLayoutManager = new GridLayoutManager(this.getActivity(),3);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this.getActivity());
+        mRecyclerview.setLayoutManager(mLayoutManager);
 
 
-        if(emptyData.isEmpty()){
-            // use Linear Layout manager if there is no data ( aucune marque favorite )
-            mRecyclerview.setLayoutManager(mLinearLayoutManager);
-        } else{
-            // use Grid Layout manager if there is data ( il ya des marque favorite)
-            mRecyclerview.setLayoutManager(mLayoutManager);
-        }
-
-
-
-       // RecyclerView.Adapter mAdapter = new HomeRecyclerAdapter(getActivity(),getData());  // Dummy Data
-        RecyclerView.Adapter mAdapter = new HomeRecyclerAdapter(getActivity(), emptyData);  // empty list
+        mAdapter = new HomeRecyclerAdapter(getActivity(),mak_list);
         mRecyclerview.setAdapter(mAdapter);
 
 
@@ -90,6 +104,86 @@ public class HomeFragment extends Fragment {
         defaultIndicator.setViewPager(defaultViewpager);
 
         return view;
+    }*/
+
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        mak_list = new ArrayList<MarqueDataHolder>();
+        mRecyclerview = (RecyclerView) view.findViewById(R.id.home_recycler_view);
+        // test
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
+        mRecyclerview.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+
+        GridLayoutManager mLayoutManager = new GridLayoutManager(this.getActivity(),3);
+        mRecyclerview.setLayoutManager(mLayoutManager);
+        //mAdapter = new HomeRecyclerAdapter(getActivity(),mak_list);
+        mAdapter = new HomeRecyclerAdapter(this,mak_list);
+
+        mRecyclerview.setAdapter(mAdapter);
+
+        ViewPager defaultViewpager = (ViewPager) view.findViewById(R.id.viewpager_default);
+        CircleIndicator defaultIndicator = (CircleIndicator) view.findViewById(R.id.indicator_default);
+        defaultViewpager.setAdapter(new HomeViewPagerAdapter(getActivity()));
+        defaultIndicator.setViewPager(defaultViewpager);
+        new MyAss().execute();
+        return view;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==100){
+            new MyAss().execute();
+        }
+        Util.logDebug("Activity terminated and return value "+requestCode);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    class MyAss extends AsyncTask<Void, MarqueDataHolder, Void> {
+
+        HomeRecyclerAdapter adapter;
+
+        @Override
+        protected void onPreExecute() {
+            adapter = (HomeRecyclerAdapter) mRecyclerview.getAdapter();
+            adapter.clearData();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                DataBaseHelper da;
+                da = new DataBaseHelper(getActivity());
+                da.open();
+                MarqueDataHolder[] items = da.getBestMarques3();
+                da.close();
+                Util.logDebug("adding favorite marque  to the list custom list " + items.length);
+                for(MarqueDataHolder item:items){
+                    publishProgress(item);
+                }
+            } catch (Exception e) {
+                Util.logError("Error loding file  "+e.getMessage());
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onProgressUpdate(MarqueDataHolder... values) {
+            Util.logDebug(values[0].getMarque());
+            adapter.add(values[0]);
+        }
     }
 
     public static List<HomeData> getData(){

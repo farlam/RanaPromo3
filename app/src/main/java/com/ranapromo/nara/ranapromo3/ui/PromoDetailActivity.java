@@ -28,7 +28,7 @@ public class PromoDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Promotion promo = getIntent().getParcelableExtra("promo"); // get intent object from MyPromoAdapter
+        final Promotion promo = getIntent().getParcelableExtra("promo"); // get intent object from MyPromoAdapter
 
         setContentView(R.layout.activity_produit);
 
@@ -45,19 +45,19 @@ public class PromoDetailActivity extends AppCompatActivity {
 
 
         TextView textView = (TextView) findViewById(R.id.detail_text);
-        textView.setText(promo.description);
+        textView.setText(promo.getProDes());
 
         TextView promoNameView = (TextView) findViewById(R.id.promo_name);
-        promoNameView.setText(promo.promotionName);
+        promoNameView.setText(promo.getProTitre());
 
         TextView newPriceView = (TextView) findViewById(R.id.new_promo_prix);
-        newPriceView.setText(promo.newPrice);
+        newPriceView.setText(promo.getNewPrice().toString());
 
         TextView timeLeftView = (TextView) findViewById(R.id.count_down_text);
-        timeLeftView.setText(promo.timeLeft);
+        timeLeftView.setText(promo.getTimeLeft().toString());
 
         TextView reductionView = (TextView) findViewById(R.id.reduction);
-        reductionView.setText(promo.reduction);
+        reductionView.setText(promo.getProTauxRed().toString());
 
         TextView acheter = (TextView) findViewById(R.id.ou_acheter);
 
@@ -65,14 +65,10 @@ public class PromoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(),StoreLocationActivity.class);
+                i.putExtra("marque",promo.getMarNom());
                 startActivity(i);
             }
         });
-
-
-
-
-
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 }

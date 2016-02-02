@@ -15,6 +15,7 @@ import com.ranapromo.nara.ranapromo3.adapters.MyFavorieAdapter;
 import com.ranapromo.nara.ranapromo3.adapters.MyPromoAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /***
@@ -67,16 +68,15 @@ public class FavorieActivity extends AppCompatActivity {
         for(int i=0;i<pName.length;i++)
         {
             Promotion current = new Promotion();
-            current.oldPrice = oldPrice[i];
-            current.newPrice = newPrice[i];
-            current.reduction = reduc[i];
-            current.timeLeft = timeLeft[i];
-            current.promotionName = pName[i];
-            current.marqueName = mName[i];
-            current.image_ID = imgs[i];
-            current.description = description;
-            current.favorite = 0;
-
+            current.setProPrix(Double.parseDouble(oldPrice[i]));
+            //current.newPrice = newPrice[i]; ce champs est calculable
+            current.setProEndDate(new Date());
+            current.setProTauxRed(Double.parseDouble(reduc[i]));
+            //current.timeLeft = timeLeft[i]; ce champ est calculable
+            current.setProDes(pName[i]);
+            //current.marqueName = mName[i];//if faut trouver une solution pour avoir le nom de la marque aussi
+            current.setProDes(description);
+            current.setFavorite(false);
             promotions.add(current);
         }
         return  promotions;

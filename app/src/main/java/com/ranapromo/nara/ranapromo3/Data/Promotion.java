@@ -3,6 +3,7 @@ package com.ranapromo.nara.ranapromo3.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,83 +11,246 @@ import java.util.List;
  */
 public class Promotion implements Parcelable{
 
-    public long promoID; // promo's ID
-    public String oldPrice; // original before %
-    public String newPrice; // price after %
-    public String marqueName; // name of product's brand
-    public String promotionName; // name of the product
-    public String reduction; // % of reduction
-    public String timeLeft; // time left until the end of the promo
-    public String description; // description of the promo
-    public int image_ID;  //should be a string type
-    public int favorite; // not favorite = 0    favorite =1
+    static final int NOM_MAR=250;
+    private static final int PRO_TITRE = 300;
+    public int image_ID;
+    private Integer proId;
+    private String marNom;
+    private String proTitre;
+    private Double proPrix;
+    private Double proTauxRed;
+    private Date proStartDate;
+    private Date proEndDate;
+    private String proDes;
+    private boolean favorite;
+    private Double newPrice;
+    private Date lastupdate;
+    private Integer marPid;
+    private Date proStartTime;
+    private Integer proCibAgeStart;
+    private Integer proCibAgeEnd;
+    private String proCibAgeSexe;
+    private String proCibLocation;
+    private Date timeLeft;
 
 
+    public String getMarNom() {
+        return marNom;
+    }
+
+    public void setMarNom(String marNom) {
+        this.marNom = marNom;
+    }
+    public Promotion(Integer proId, Double proPrix, Double newPrice, Double proPrix1, String proDes,
+                     Double proTauxRed, Date timeLeft, String proDes1) {
+    }
+
+    public Promotion() {
+    }
     public Promotion(Parcel in){
-
-        String[] mData = new String[10];
-
-        in.readStringArray(mData);
-
-        this.promoID = Long.valueOf(mData[0]);
-        this.oldPrice = mData[1];
-        this.newPrice = mData[2];
-        this.marqueName = mData[3];
-        this.promotionName = mData[4];
-        this.reduction = mData[5];
-        this.timeLeft = mData[6];
-        this.description = mData[7];
-        this.image_ID = Integer.parseInt(mData[8]);
-        this.favorite = Integer.parseInt(mData[9]);
-
+        this.setProId(in.readInt());
+        this.setProPrix(in.readDouble());
+        this.setMarNom(in.readString());
+        this.setProTitre(in.readString());
+        this.setProTauxRed(in.readDouble());
+        this.setProDes(in.readString());
+        this.setProEndDate(new Date(in.readLong()));
     }
 
-    public Promotion(){
-
+    public Promotion(Integer proId, Double proPrix, String marqueName, String proTitre,
+                        Double proTauxRed, String proDes, boolean favorite,Date proEndDate) {
+        this.proId = proId;
+        this.proPrix = proPrix;
+        this.marNom = marqueName;
+        this.proTitre = proTitre;
+        this.proTauxRed = proTauxRed;
+        this.proDes = proDes;
+        this.favorite = favorite;
+        this.proEndDate = proEndDate;
     }
-    public Promotion(long promoID, String oldPrice, String newPrice, String marqueName, String promotionName, String reduction, String timeLeft, String description, int image_id, int favorite) {
-        this.promoID = promoID;
-        this.oldPrice = oldPrice;
+
+
+    public Date getTimeLeft() {
+        return proEndDate;
+    }
+
+    public void setTimeLeft(Date timeLeft) {
+        this.timeLeft = proEndDate;
+    }
+
+    public Double getNewPrice() {
+        return proPrix-proPrix*proTauxRed/100;
+    }
+
+    public void setNewPrice(Double newPrice) {
         this.newPrice = newPrice;
-        this.marqueName = marqueName;
-        this.promotionName = promotionName;
-        this.reduction = reduction;
-        this.timeLeft = timeLeft;
-        this.description = description;
-        this.image_ID = image_id;
+    }
+
+    public Integer getMarPid() {
+        return marPid;
+    }
+
+    public void setMarPid(Integer marPid) {
+        this.marPid = marPid;
+    }
+
+    public String getProDes() {
+        return proDes;
+    }
+
+    public void setProDes(String proDes) {
+        this.proDes = proDes;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+
         this.favorite = favorite;
     }
 
-    @Override
+    public Date getLastupdate() {
+        return this.lastupdate;
+    }
+
+    public void setLastupdate(Date lastupdate) {
+        this.lastupdate = lastupdate;
+    }
+
+    public Date getProEndDate() {
+        return this.proEndDate;
+    }
+
+    public void setProEndDate(Date proEndDate) {
+        this.proEndDate = proEndDate;
+    }
+
+    public Double getProPrix() {
+        return this.proPrix;
+    }
+
+    public void setProPrix(Double proPrix) {
+        this.proPrix = proPrix;
+    }
+
+    public Date getProStartDate() {
+        return this.proStartDate;
+    }
+
+    public void setProStartDate(Date proStartDate) {
+        this.proStartDate = proStartDate;
+    }
+
+    public Double getProTauxRed() {
+        return this.proTauxRed;
+    }
+
+    public void setProTauxRed(Double proTauxRed) {
+        this.proTauxRed = proTauxRed;
+    }
+
+    public String getProTitre() {
+        return this.proTitre;
+    }
+
+    public void setProTitre(String proTitre) {
+        this.proTitre = proTitre;
+    }
+
+    public Date getProStartTime() {
+        return proStartTime;
+    }
+
+    public void setProStartTime(Date proStartTime) {
+
+        this.proStartTime = proStartTime;
+    }
+
+    public Integer getProCibAgeStart() {
+        return proCibAgeStart;
+    }
+
+    public void setProCibAgeStart(Integer proCibAgeStart) {
+
+        this.proCibAgeStart = proCibAgeStart;
+    }
+
+    public Integer getProCibAgeEnd() {
+        return proCibAgeEnd;
+    }
+
+    public void setProCibAgeEnd(Integer proCibAgeEnd) {
+        this.proCibAgeEnd = proCibAgeEnd;
+    }
+
+    public String getProCibAgeSexe() {
+        return proCibAgeSexe;
+    }
+
+    public void setProCibAgeSexe(String proCibAgeSexe) {
+        this.proCibAgeSexe = proCibAgeSexe;
+    }
+
+    public String getProCibLocation() {
+        return proCibLocation;
+    }
+
+    public void setProCibLocation(String proCibLocation) {
+
+        this.proCibLocation = proCibLocation;
+    }
+
+    public Integer getProId() {
+        return proId;
+    }
+
+    public void setProId(Integer proPid) {
+        this.proId = proPid;
+    }
+
     public int describeContents() {
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeStringArray(new String[]{String.valueOf(this.promoID),
-                                            this.oldPrice,
-                                            this.newPrice,
-                                            this.marqueName,
-                                            this.promotionName,
-                                            this.reduction,
-                                            this.timeLeft,
-                                            this.description,
-                                            String.valueOf(image_ID),
-                                            String.valueOf(favorite) });
+        /*out.writeStringArray(new String[]{String.valueOf(this.proId),
+                                            this.proPrix.toString(),
+                                            this.newPrice.toString(),
+                                            this.marPid.toString(),
+                                            this.proTitre,
+                                            this.proTauxRed.toString(),
+                                            this.timeLeft.toString(),
+                                            this.proDes,
+                                            String.valueOf(this.favorite) });*/
+
+
+      // boolean favorite
+        out.writeInt(this.getProId());
+        out.writeDouble(this.getProPrix());
+        out.writeString(this.getMarNom());
+        out.writeString(this.getProTitre());
+        out.writeDouble(this.getProTauxRed());
+        out.writeString(this.getProDes());
+        out.writeLong(this.getProEndDate().getTime());
     }
 
-    public static final Parcelable.Creator<Promotion> CREATOR= new Parcelable.Creator<Promotion>() {
 
+    public static final Parcelable.Creator<Promotion> CREATOR
+            = new Parcelable.Creator<Promotion>() {
+
+        // This simply calls our new constructor (typically private) and
+        // passes along the unmarshalled `Parcel`, and then returns the new object!
         @Override
         public Promotion createFromParcel(Parcel in) {
-// TODO Auto-generated method stub
-            return new Promotion(in);  //using parcelable constructor
+            return new Promotion(in);
         }
 
+        // We just need to copy this and change the type to match our class.
         @Override
         public Promotion[] newArray(int size) {
-// TODO Auto-generated method stub
             return new Promotion[size];
         }
     };

@@ -22,16 +22,16 @@ import com.ranapromo.nara.ranapromo3.R;
 
 public class MarqueDetail extends AppCompatActivity {
 
+    public String marqueId = null;
     @Nullable
     @Override
     public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail_marque);
-
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-
+        marqueId = getIntent().getStringExtra("marqueId");
        // getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -40,7 +40,7 @@ public class MarqueDetail extends AppCompatActivity {
 
         //Set up the Tablayout
         ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new MarquePagerAdapter(getSupportFragmentManager(), MarqueDetail.this));
+        mViewPager.setAdapter(new MarquePagerAdapter(getSupportFragmentManager(), MarqueDetail.this,marqueId));
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 

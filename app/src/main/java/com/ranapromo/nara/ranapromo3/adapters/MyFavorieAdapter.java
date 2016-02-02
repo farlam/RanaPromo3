@@ -48,15 +48,15 @@ public class MyFavorieAdapter extends RecyclerView.Adapter<MyFavorieAdapter.View
 
         Promotion current = dummyData.get(position);
 
-        viewHolder.promoName.setText(current.promotionName);
-        viewHolder.reduc.setText(current.reduction);
-        viewHolder.oldPrice.setText(current.oldPrice);
-        viewHolder.newPrice.setText(current.newPrice);
-        viewHolder.countDown.setText(current.timeLeft);
-        viewHolder.img.setBackgroundResource(current.image_ID);
-        viewHolder.fav = current.favorite;
+        viewHolder.promoName.setText(current.getProTitre());
+        viewHolder.reduc.setText(current.getProTauxRed().toString());
+        viewHolder.oldPrice.setText(current.getProPrix().toString());
+        viewHolder.newPrice.setText(current.getNewPrice().toString());
+        viewHolder.countDown.setText(current.getTimeLeft().toString());
+        //viewHolder.img.setBackgroundResource(current.image_ID);
+        //viewHolder.fav = current.favorite;
 
-        viewHolder.intentPromo = new Promotion(current.promoID,current.oldPrice,current.newPrice,current.marqueName,current.promotionName,current.reduction,current.timeLeft,current.description,current.image_ID,current.favorite);
+        viewHolder.intentPromo = new Promotion(current.getProId(),current.getProPrix(),current.getNewPrice(),current.getProPrix(),current.getProDes(),current.getProTauxRed(),current.getTimeLeft(),current.getProDes());
 
     }
 

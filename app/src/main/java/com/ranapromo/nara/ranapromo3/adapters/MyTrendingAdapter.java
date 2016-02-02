@@ -47,13 +47,13 @@ public class MyTrendingAdapter extends RecyclerView.Adapter<MyTrendingAdapter.Vi
 
         Promotion current = dummyData.get(position);
 
-        viewHolder.promoName.setText(current.promotionName);
-        viewHolder.reduc.setText(current.reduction);
-        viewHolder.oldPrice.setText(current.oldPrice);
-        viewHolder.newPrice.setText(current.newPrice);
-        viewHolder.countDown.setText(current.timeLeft);
-        viewHolder.img.setBackgroundResource(current.image_ID);
-        viewHolder.fav = current.favorite;
+        viewHolder.promoName.setText(current.getProTitre());
+        viewHolder.reduc.setText(current.getProTauxRed().toString());
+        viewHolder.oldPrice.setText(current.getProPrix().toString());
+        viewHolder.newPrice.setText(current.getProPrix().toString());
+        viewHolder.countDown.setText(current.getTimeLeft().toString());
+        //viewHolder.img.setBackgroundResource(current.image_ID);
+        viewHolder.fav = current.isFavorite();
 
     }
 
@@ -71,7 +71,7 @@ public class MyTrendingAdapter extends RecyclerView.Adapter<MyTrendingAdapter.Vi
         TextView countDown;
         ImageView img;
         ImageView starImag;
-        int fav;
+        boolean fav;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -101,19 +101,19 @@ public class MyTrendingAdapter extends RecyclerView.Adapter<MyTrendingAdapter.Vi
 
             if(view == starImag)
             {
-                if(fav == 0) {
+                if(fav == false) {
 
                     starImag.setBackgroundResource(R.drawable.ic_fav_select);
-                    fav = 1;
+                    fav = true;
 
                     Toast.makeText(context, "added to favorie",
                             Toast.LENGTH_SHORT).show();
                 }
 
-                else if(fav == 1) {
+                else if(fav == true) {
 
                     starImag.setBackgroundResource(R.drawable.ic_fav_unselect);
-                    fav = 0;
+                    fav = false;
 
                     Toast.makeText(context, "removed from favorie",
                             Toast.LENGTH_SHORT).show();
