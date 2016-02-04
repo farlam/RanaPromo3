@@ -1,11 +1,15 @@
 package com.ranapromo.nara.ranapromo3;
 import android.app.SearchManager;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
@@ -23,8 +27,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ranapromo.nara.ranapromo3.adapters.MainPagerAdapter;
+import com.ranapromo.nara.ranapromo3.comman.Util;
 import com.ranapromo.nara.ranapromo3.ui.FavorieActivity;
 import com.ranapromo.nara.ranapromo3.ui.StoreActivity;
 
@@ -56,6 +62,7 @@ public class Main extends AppCompatActivity implements ViewPager.OnPageChangeLis
         setContentView(R.layout.activity_main1);
 
 
+
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         Drawable drawabl = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);
@@ -65,9 +72,6 @@ public class Main extends AppCompatActivity implements ViewPager.OnPageChangeLis
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(drawabl);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
 
         //Set up the Tablayout
         mPager = (ViewPager) findViewById(R.id.viewpager);

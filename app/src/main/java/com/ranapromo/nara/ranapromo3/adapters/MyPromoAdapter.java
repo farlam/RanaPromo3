@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +18,9 @@ import android.widget.Toast;
 
 import com.ranapromo.nara.ranapromo3.Data.Marque;
 import com.ranapromo.nara.ranapromo3.Data.Promotion;
+import com.ranapromo.nara.ranapromo3.comman.DataBaseHelper;
 import com.ranapromo.nara.ranapromo3.comman.Util;
+import com.ranapromo.nara.ranapromo3.fmk.impl.DataProviderImpl3;
 import com.ranapromo.nara.ranapromo3.ui.PromoDetailActivity;
 import com.ranapromo.nara.ranapromo3.R;
 
@@ -62,9 +66,9 @@ public class MyPromoAdapter extends RecyclerView.Adapter<MyPromoAdapter.ViewHold
     public void onBindViewHolder(MyPromoAdapter.ViewHolder viewHolder, int position) {
 
         Promotion current = dummyData.get(position);
-
+        viewHolder.promoId = current.getProId();
         viewHolder.promoName.setText(current.getProTitre());
-        viewHolder.reduc.setText(myFormatter2.format(current.getProTauxRed()));
+        viewHolder.reduc.setText(myFormatter2.format(current.getProTauxRed())+" %");
         viewHolder.oldPrice.setText(myFormatter.format(current.getProPrix()));
         viewHolder.newPrice.setText(myFormatter.format(current.getNewPrice()));
         viewHolder.countDown.setText(calculateLeftTime(current.getProEndDate()));
@@ -79,6 +83,10 @@ public class MyPromoAdapter extends RecyclerView.Adapter<MyPromoAdapter.ViewHold
             new MyImageLoader().execute(new ParamHolder(viewHolder.img, dest));
         }
         viewHolder.fav = current.isFavorite();
+        viewHolder.viewed = current.isViewed();
+        if(viewHolder.fav) viewHolder.starImag.setBackgroundResource(R.drawable.ic_fav_select);
+           else viewHolder.starImag.setBackgroundResource(R.drawable.ic_fav_unselect);
+
         viewHolder.intentPromo = new Promotion(current.getProId(),current.getProPrix(),current.getMarNom(),current.getProTitre(),current.getProTauxRed(),current.getProDes(),current.isFavorite(),current.getProEndDate());
         //viewHolder.intentPromo = new Promotion(current.promoID,current.oldPrice,current.newPrice,current.marqueName,current.promotionName,current.reduction,current.timeLeft,current.description,current.image_ID,current.favorite);
 
@@ -158,7 +166,9 @@ public class MyPromoAdapter extends RecyclerView.Adapter<MyPromoAdapter.ViewHold
         ImageView img;
         ImageView starImag;
         boolean fav;
+        boolean viewed;
         Promotion intentPromo;
+        int promoId;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -177,11 +187,39 @@ public class MyPromoAdapter extends RecyclerView.Adapter<MyPromoAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-
-
             if(view == img) {
+                if(viewed != true)
+                {
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DataBaseHelper da = new DataBaseHelper(context);
+                            da.open();
+                            //verification si une connexion internet existe
+                            if (Util.isOnline(context)){
+                                Util.logDebug("Connexion existe update serveur");
+                                try
+                                {
+                                  DataProviderImpl3 dataPro = new DataProviderImpl3(context.getString(R.string.server_url));
+                                  dataPro.setViewedPromotion(promoId);
+                                  Util.logDebug("Opération effectué existe update serveur");
+                                }catch (Exception e) {
+                                    Util.logError("Error updating promotion id "+promoId+" to viewed in server");
+                                    Util.logDebug("do it in log activity");
+                                    da.logActivity("Promo", "viewed", promoId);
+                                }
+                            } else
+                            {
+                                Util.logDebug("Connexion n'existe pas log activity to data base");
+                                da.logActivity("Promo", "viewed", promoId);
+                            }
 
-
+                            viewed = da.setPromviewed(promoId);
+                            da.close();
+                        }
+                    });
+                    t.start();
+                }
                 // start the produit activity
                 Intent intent = new Intent(context, PromoDetailActivity.class);
                 intent.putExtra("promo",intentPromo);
@@ -190,25 +228,41 @@ public class MyPromoAdapter extends RecyclerView.Adapter<MyPromoAdapter.ViewHold
 
             if(view == starImag)
             {
-                if(fav == false) {
+                final Handler handler = new Handler();
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DataBaseHelper da = new DataBaseHelper(context);
+                        da.open();
+                        fav = da.setFavoritPromo(promoId);
+                        da.close();
+                        //send data to be sent to server or logged
 
-                    starImag.setBackgroundResource(R.drawable.ic_fav_select);
-                    fav = true;
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(fav == true) {
+                                    starImag.setBackgroundResource(R.drawable.ic_fav_select);
+                                    //fav = true;
+                                    Toast.makeText(context, "added to favorie",
+                                            Toast.LENGTH_SHORT).show();
+                                }
 
-                        Toast.makeText(context, "added to favorie",
-                            Toast.LENGTH_SHORT).show();
+                                else if(fav == false) {
+
+                                    starImag.setBackgroundResource(R.drawable.ic_fav_unselect);
+                                    //fav = false;
+
+                                    Toast.makeText(context, "removed from favorie",
+                                            Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
                     }
-
-                else if(fav == true) {
-
-                    starImag.setBackgroundResource(R.drawable.ic_fav_unselect);
-                    fav = false;
-
-                        Toast.makeText(context, "removed from favorie",
-                                Toast.LENGTH_SHORT).show();
-
-                    }
-            }
+                });
+                t.start();
+          }
         }
     }
 }

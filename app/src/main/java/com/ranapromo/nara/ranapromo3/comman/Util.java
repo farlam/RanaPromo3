@@ -1,7 +1,10 @@
 package com.ranapromo.nara.ranapromo3.comman;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import java.io.File;
@@ -20,9 +23,20 @@ import java.util.Date;
  * Created by smati on 17/01/2016.
  */
 public class Util {
+    public static final String LOCAL_ACTION = "Promo_favorit";
+    public static final String PROMO_VIEWD = "Promo_viewed";
     public static String DEBUG_VAL = "MYAA";
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static SimpleDateFormat format2 = new SimpleDateFormat("HH:mm:ss");
+
+    public static boolean isOnline(Context ctx) {
+        ConnectivityManager cm =
+                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+
 
     public static boolean isMustDownload(String destFile) {
         File file = new File(destFile);
@@ -168,4 +182,6 @@ public class Util {
 
         return result;
     }
+
+
 }

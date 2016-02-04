@@ -29,7 +29,7 @@ public class DataProviderImpl3 implements IDataProvider {
 	}
 	
 	@Override
-	public Holder getMarque() {
+	public Holder getMarque() throws Exception {
 		Holder result = null;
 		//http://alsof.ml/allmarque.xml
 		String marQueContent = HttpManager.GetData(url + "getAllMarque.php?format=json");
@@ -86,7 +86,7 @@ public class DataProviderImpl3 implements IDataProvider {
 
 
 	@Override
-	public Holder getMarqueByDate(Date date) {
+	public Holder getMarqueByDate(Date date) throws Exception {
 		Holder result = null;
 		//http://alsof.ml/allmarque.xml
         String strDate=null;
@@ -118,11 +118,11 @@ public class DataProviderImpl3 implements IDataProvider {
 	}
 
 	@Override
-	public Holder getAllPromo() {
+	public Holder getAllPromo() throws Exception {
 		Holder result = null;
 		//http://alsof.ml/allmarque.xml
 		String content = HttpManager.GetData(url+"getAllPromo.php?format=json");
-		//System.out.println(content);
+		Util.logDebug(content);
 		
 		try {
 			List<Object> promos = parceJSON(content,"Promotion",
@@ -139,7 +139,7 @@ public class DataProviderImpl3 implements IDataProvider {
 			result.setTheObject(promos.toArray(new Promotion[promos.size()]));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Util.logError(e.getMessage());
 		}
 	return result;
 	}
@@ -147,7 +147,7 @@ public class DataProviderImpl3 implements IDataProvider {
 	
 
 	@Override
-	public Holder getPromoByDate(Date date) {
+	public Holder getPromoByDate(Date date) throws Exception {
 		Holder result = null;
 		//http://alsof.ml/allmarque.xml
         String strDate=null;
@@ -185,7 +185,7 @@ public class DataProviderImpl3 implements IDataProvider {
 	}
 
 	@Override
-	public Holder getStoreByDate(Date date) {
+	public Holder getStoreByDate(Date date) throws Exception {
 		Holder result = null;
 		String strDate=null;
 		String content = HttpManager.GetData(url+"getAllStore.php?format=json");
@@ -215,7 +215,7 @@ public class DataProviderImpl3 implements IDataProvider {
 	}
 
 	@Override
-	public Holder getAllStore() {
+	public Holder getAllStore() throws Exception {
 		Holder result = null;
 		//http://alsof.ml/allmarque.xml
 		String content = HttpManager.GetData(url+"getAllStore.php?user=2&format=json");
@@ -236,10 +236,13 @@ public class DataProviderImpl3 implements IDataProvider {
 		return result;
 	}
 
-	
-
-
-
+	@Override
+	public boolean setViewedPromotion(int promId) throws Exception {
+		boolean result = false;
+			String content = HttpManager.GetData(url+"setViewedProm.php?promoId="+promId);
+			Util.logDebug("Promotion " +promId+" updated in server to viewed");
+			return true;
+	}
 
 
 	@Override
@@ -255,7 +258,7 @@ public class DataProviderImpl3 implements IDataProvider {
 	}
 
 	@Override
-	public Holder getAllLancement() {
+	public Holder getAllLancement() throws Exception {
 		Holder result = null;
 		//http://alsof.ml/allmarque.xml
 		String content = HttpManager.GetData(url+"getAllLancement.php?user=2&format=json");
@@ -275,7 +278,7 @@ public class DataProviderImpl3 implements IDataProvider {
 	}
 
 	@Override
-	public Holder getLancementByDate(Date date) {
+	public Holder getLancementByDate(Date date) throws Exception {
 		Holder result = null;
 		//http://alsof.ml/allmarque.xml
         String strDate=null;

@@ -1,8 +1,11 @@
 package com.ranapromo.nara.ranapromo3.Entity;
 
 
+import android.annotation.SuppressLint;
+
 import com.ranapromo.nara.ranapromo3.Data.Promotion;
 
+@SuppressLint("ParcelCreator")
 public class PromotionCDT extends Promotion {
 
 	/**

@@ -23,6 +23,7 @@ public class Promotion implements Parcelable{
     private Date proEndDate;
     private String proDes;
     private boolean favorite;
+    private boolean viewed;
     private Double newPrice;
     private Date lastupdate;
     private Integer marPid;
@@ -56,6 +57,9 @@ public class Promotion implements Parcelable{
         this.setProDes(in.readString());
         this.setProEndDate(new Date(in.readLong()));
     }
+
+
+
 
     public Promotion(Integer proId, Double proPrix, String marqueName, String proTitre,
                         Double proTauxRed, String proDes, boolean favorite,Date proEndDate) {
@@ -175,6 +179,15 @@ public class Promotion implements Parcelable{
     public void setProCibAgeStart(Integer proCibAgeStart) {
 
         this.proCibAgeStart = proCibAgeStart;
+    }
+
+
+    public boolean isViewed() {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
     }
 
     public Integer getProCibAgeEnd() {

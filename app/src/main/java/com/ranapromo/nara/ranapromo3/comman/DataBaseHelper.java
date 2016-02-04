@@ -71,6 +71,7 @@ public class DataBaseHelper {
 
 
 
+
     public static class MyPromo extends SQLiteOpenHelper {
 
 
@@ -318,7 +319,7 @@ public class DataBaseHelper {
     public Store[] getAllStoreByMarque(String marque){
         List<Store> stores = new ArrayList<Store>();
         String[] colomus = new String[]{STORE_MARQUE, STORE_LIEU, STORE_NAME};
-        Cursor c = ourDataBase.query(STORE_TABLE, colomus,STORE_MARQUE +" = ? ",new String[]{marque},null,null, null);
+        Cursor c = ourDataBase.query(STORE_TABLE, colomus, STORE_MARQUE + " = ? ", new String[]{marque}, null, null, null);
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             Store sto = new Store();
             sto.setMarNom(c.getString(c.getColumnIndex(STORE_MARQUE)));
@@ -460,6 +461,7 @@ public class DataBaseHelper {
             prom.setProPrix(c.getDouble(c.getColumnIndex(PROM0_PRIX)));
             prom.setProTauxRed(c.getDouble(c.getColumnIndex(PROM0_TAUX)));
             prom.setFavorite(c.getInt(c.getColumnIndex(PROM0_FAV)) == 1);
+            prom.setViewed(c.getInt(c.getColumnIndex(PROM0_VIEW)) == 1);
             prom.setProStartDate(new Date(c.getLong(c.getColumnIndex(PROM0_DATE_DEBUT))));
             prom.setProEndDate(new Date(c.getLong(c.getColumnIndex(PROM0_DATE_FIN))));
             prom.setMarPid(c.getInt(c.getColumnIndex(PROM0_MAR_ID)));
@@ -475,7 +477,7 @@ public class DataBaseHelper {
     	int val = 0;
     	try{
     		String[] colomus = new String[]{PROM0_FAV};
-            Cursor c = ourDataBase.query(PROM0_TABLE, colomus, PROM0_REF+" = "+"'"+refProm+"'", null, null, null, null);
+            Cursor c = ourDataBase.query(PROM0_TABLE, colomus, PROM0_TABLE_ID +" = "+refProm, null, null, null, null);
             
             int facIndex = c.getColumnIndex(PROM0_FAV);
             c.moveToFirst();
@@ -485,8 +487,8 @@ public class DataBaseHelper {
     	
     	    ContentValues cv = new ContentValues();
     	    cv.put(PROM0_FAV, val);
-    	    ourDataBase.update(PROM0_TABLE, cv, "ref = ?", new String[]{refProm.toString()});
-    	    Util.logDebug("update favorite Marque " + refProm+" to value"+val);
+    	    ourDataBase.update(PROM0_TABLE, cv, "id = ?", new String[]{refProm.toString()});
+    	    Util.logDebug("update favorite promotion  " + refProm+" to value "+val);
     	} catch(Exception e){
     		Util.logError("error white updating favorite Marque " + refProm+" error "+e.getMessage());
     	}
@@ -543,13 +545,24 @@ public class DataBaseHelper {
         }
     }
 
-	public void setPromviewed(Integer proRef) {
+	public boolean setPromviewed(Integer proRef) {
+         boolean result = false;
 		 Util.logDebug("set promotion " + proRef + " to viewd");
 		 ContentValues cv = new ContentValues();
  	     cv.put(PROM0_VIEW, 1);
- 	     ourDataBase.update(PROM0_TABLE, cv, "ref = ?", new String[]{proRef.toString()});
-	     Util.logDebug("update promotion " + proRef + " to value" + 1);
+         try {
+             ourDataBase.update(PROM0_TABLE, cv, "id = ?", new String[]{proRef.toString()});
+             Util.logDebug("update promotion " + proRef + " to value" + 1);
+             result = true;
+         }catch (Exception e){
+             Util.logError("Error updating promotion to set it to viewed");
+         }
+         return result;
+
 	}
+
+    public void logActivity(String promo, String viewed, int promoId) {
+    }
 }
 
 
