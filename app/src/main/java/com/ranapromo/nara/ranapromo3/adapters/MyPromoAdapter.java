@@ -196,25 +196,25 @@ public class MyPromoAdapter extends RecyclerView.Adapter<MyPromoAdapter.ViewHold
                             DataBaseHelper da = new DataBaseHelper(context);
                             da.open();
                             //verification si une connexion internet existe
-                            if (Util.isOnline(context)){
-                                Util.logDebug("Connexion existe update serveur");
-                                try
-                                {
-                                  DataProviderImpl3 dataPro = new DataProviderImpl3(context.getString(R.string.server_url));
-                                  dataPro.setViewedPromotion(promoId);
-                                  Util.logDebug("Opération effectué existe update serveur");
-                                }catch (Exception e) {
-                                    Util.logError("Error updating promotion id "+promoId+" to viewed in server");
-                                    Util.logDebug("do it in log activity");
-                                    da.logActivity("Promo", "viewed", promoId);
+                            if(viewed == false) {
+                                if (Util.isOnline(context)) {
+                                    Util.logDebug("Connexion existe update serveur");
+                                    try {
+                                        DataProviderImpl3 dataPro = new DataProviderImpl3(context.getString(R.string.server_url));
+                                        dataPro.setViewedPromotion(promoId);
+                                        Util.logDebug("Opération effectué existe update serveur");
+                                    } catch (Exception e) {
+                                        Util.logError("Error updating promotion id " + promoId + " to viewed in server");
+                                        Util.logDebug("do it in log activity");
+                                        da.logActivity("Promo", Util.ACTION_VIEWED, promoId);
+                                    }
+                                } else {
+                                    Util.logDebug("Connexion n'existe pas log activity to data base");
+                                    da.logActivity("Promo", Util.ACTION_VIEWED, promoId);
                                 }
-                            } else
-                            {
-                                Util.logDebug("Connexion n'existe pas log activity to data base");
-                                da.logActivity("Promo", "viewed", promoId);
-                            }
 
-                            viewed = da.setPromviewed(promoId);
+                                viewed = da.setPromviewed(promoId);
+                            }
                             da.close();
                         }
                     });

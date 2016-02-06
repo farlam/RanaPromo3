@@ -8,12 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 import com.ranapromo.nara.ranapromo3.Data.Lancement;
+import com.ranapromo.nara.ranapromo3.Data.LogData;
 import com.ranapromo.nara.ranapromo3.Data.Marque;
 import com.ranapromo.nara.ranapromo3.Data.MarqueDataHolder;
 import com.ranapromo.nara.ranapromo3.Data.Promotion;
 import com.ranapromo.nara.ranapromo3.Entity.PromotionCDT;
 import com.ranapromo.nara.ranapromo3.Data.Store;
 import com.ranapromo.nara.ranapromo3.R;
+import com.ranapromo.nara.ranapromo3.fmk.impl.DataProviderImpl3;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,6 +68,14 @@ public class DataBaseHelper {
     private static final String LAN_DATE = "lan_date";
     private static final String LAN_FAV = "favorite";
 
+    private static final String LOG_ACTIVITY_TABLE ="log";
+    private static final String LOG_ID ="id";
+    private static final String LOG_ACTION = "logaction";
+    private static final String LOG_TABLE = "logtable";
+    private static final String LOG_VALUE = "logvalue";
+
+
+
     private SQLiteDatabase ourDataBase;
     Context context = null;
 
@@ -82,8 +92,18 @@ public class DataBaseHelper {
             Util.logDebug("Data Base created");
         }
 
+
+
         @Override
         public void onCreate(SQLiteDatabase db) {
+
+            db.execSQL("CREATE TABLE " + LOG_ACTIVITY_TABLE + " (" +
+                    LOG_ID + " INTEGER  PRIMARY KEY AUTOINCREMENT, " +
+                    LOG_ACTION + " TEXT NOT NULL, " +
+                    LOG_TABLE + " TEXT NOT NULL, " +
+                    LOG_VALUE + " INTEGER NOT NULL);");
+
+            Util.logDebug("Table " + LOG_ACTIVITY_TABLE + " created");
 
             db.execSQL("CREATE TABLE " + FACTORY_TABLE + " (" +
                     FACTORY_ID + " TEXT NOT NULL UNIQUE, " +
@@ -137,6 +157,7 @@ public class DataBaseHelper {
             db.execSQL("DROP TABLE IF EXISTS " + PROM0_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + STORE_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + LANCEMENT_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + LOG_ACTIVITY_TABLE);
 
 
             onCreate(db);
@@ -157,6 +178,26 @@ public class DataBaseHelper {
     public void close() {
         myPromo.close();
     }
+
+
+    public boolean logActivity(String action,String table,int value){
+
+        boolean result = false;
+        //LOG_ACTIVITY_TABLE
+        ContentValues cv = new ContentValues();
+        cv.put(LOG_ACTION, action);
+        cv.put(LOG_TABLE, table);
+        cv.put(LOG_VALUE, value);
+        try {
+            ourDataBase.insertOrThrow(LOG_ACTIVITY_TABLE, null, cv);
+            Util.logDebug("insert log value action="+action+" table="+table+" value="+value+" into log table");
+            return true;
+        } catch (Exception e) {
+            Util.logError("Error inserting log value action="+action+" table="+table+" error is "+e.getMessage());
+            return false;
+        }
+    }
+
 
     public void createFactoryEntry(Marque[] marques) {
         ContentValues cv;
@@ -230,7 +271,7 @@ public class DataBaseHelper {
             cv.put(PROM0_TAUX, mr.getProTauxRed());
             cv.put(PROM0_DATE_DEBUT, mr.getProStartDate().getTime());
             cv.put(PROM0_DATE_FIN, mr.getProEndDate().getTime());
-            cv.put(PROM0_FAV, mr.isFavorite());
+            //cv.put(PROM0_FAV, mr.isFavorite());
             cv.put(PROM0_MAR_ID, mr.getMarPid());
             cv.put(PROM0_MAR_NOM, mr.getMarNom());
             
@@ -240,8 +281,8 @@ public class DataBaseHelper {
             } catch (Exception e) {
                 Util.logError("error white adding row Promo "+mr.getProId()+ "to database taux egale "+mr.getProTauxRed()+" error is"+e);
                 Util.logDebug("updating row instead " + mr.getProId() + "to database");
-                int a = 0;
-                cv.put(PROM0_VIEW, a);
+                //int a = 0;
+                //cv.put(PROM0_VIEW, a);
                 ourDataBase.update(PROM0_TABLE, cv, "id = ?", new String[]{mr.getProId().toString()});
             }
         }
@@ -561,8 +602,28 @@ public class DataBaseHelper {
 
 	}
 
-    public void logActivity(String promo, String viewed, int promoId) {
+
+    public LogData[] upDateLogActivities() {
+        String str = "select * from log";
+        List<LogData> proms = new ArrayList<LogData>();
+        DataProviderImpl3 dataPro = new DataProviderImpl3(context.getString(R.string.server_url));
+        Cursor c = ourDataBase.rawQuery(str , null);
+        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+            LogData log = new LogData();
+            log.setAction(c.getString(c.getColumnIndex(LOG_ACTION)));
+            log.setValue(c.getInt(c.getColumnIndex(LOG_VALUE)));
+            log.setTableName(c.getString(c.getColumnIndex(LOG_TABLE)));
+            proms.add(log);
+        }
+        return proms.toArray(new LogData[proms.size()]);
     }
+
+
+    public void deleteLogEntry(int id) {
+        Util.logError("Delete enty with id ="+id);
+    }
+
+
 }
 
 

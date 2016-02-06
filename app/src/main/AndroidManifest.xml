@@ -22,37 +22,43 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Main"
             android:configChanges="orientation|keyboardHidden"
             android:label="Main"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PromoDetailActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_marque"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.FavorieActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_favorie"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MarqueDetail"
             android:label="@string/title_activity_marque"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.MarqueActivity"
             android:label="@string/title_activity_marque"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.StoreActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.StoreActivity"
             android:label="StoreActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.StoreLocationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.StoreLocationActivity"
             android:label="MapActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".fmk.UpdaterService"
+            android:enabled="false"
+            android:exported="false"></service>
     </application>
 
 </manifest>

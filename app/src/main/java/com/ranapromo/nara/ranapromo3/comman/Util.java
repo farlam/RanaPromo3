@@ -25,6 +25,8 @@ import java.util.Date;
 public class Util {
     public static final String LOCAL_ACTION = "Promo_favorit";
     public static final String PROMO_VIEWD = "Promo_viewed";
+    public static final String ACTION_VIEWED = "VIEWED";
+    public static final String ACTION_FAVORIT = "FAVORIT";
     public static String DEBUG_VAL = "MYAA";
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static SimpleDateFormat format2 = new SimpleDateFormat("HH:mm:ss");
