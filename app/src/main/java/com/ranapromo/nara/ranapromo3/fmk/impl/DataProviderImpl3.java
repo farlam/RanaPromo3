@@ -239,9 +239,9 @@ public class DataProviderImpl3 implements IDataProvider {
 	@Override
 	public boolean setViewedPromotion(int promId) throws Exception {
 		boolean result = false;
-			String content = HttpManager.GetData(url+"setViewedProm.php?promoId="+promId);
-			Util.logDebug("Promotion " +promId+" updated in server to viewed");
-			return true;
+		String content = HttpManager.GetData(url+"setViewedProm.php?promoId="+promId);
+		Util.logDebug("Promotion " +promId+" updated in server to viewed");
+		return true;
 	}
 
 

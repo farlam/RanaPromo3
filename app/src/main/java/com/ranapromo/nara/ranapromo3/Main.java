@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.ranapromo.nara.ranapromo3.adapters.MainPagerAdapter;
 import com.ranapromo.nara.ranapromo3.comman.Util;
+import com.ranapromo.nara.ranapromo3.fmk.UpdaterService;
 import com.ranapromo.nara.ranapromo3.ui.FavorieActivity;
 import com.ranapromo.nara.ranapromo3.ui.StoreActivity;
 
@@ -60,9 +61,7 @@ public class Main extends AppCompatActivity implements ViewPager.OnPageChangeLis
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main1);
-
-
-
+        startService(new Intent(getApplicationContext(), UpdaterService.class));
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         Drawable drawabl = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu, null);

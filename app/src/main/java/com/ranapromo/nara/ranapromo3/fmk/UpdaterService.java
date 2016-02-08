@@ -18,12 +18,12 @@ public class UpdaterService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+       return null;
     }
 
     @Override
     public void onCreate() {
-        //super.onCreate();
+        super.onCreate();
         Util.logDebug("StartUpdater service started to update data");
     }
 
@@ -31,31 +31,39 @@ public class UpdaterService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Util.logDebug("StartUpdater service started to update data");
-        DataProviderImpl3 dataPro= new DataProviderImpl3(this.getString(R.string.server_url));
+        final DataProviderImpl3 dataPro= new DataProviderImpl3(this.getString(R.string.server_url));
+        final DataBaseHelper da = new DataBaseHelper(this);
         if(Util.isOnline(this)) {
-            DataBaseHelper da = new DataBaseHelper(this);
-            try {
-                da.open();
-                LogData[] logs = da.upDateLogActivities();
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
 
-                for (LogData mr : logs) {
-                   if(dataPro.setViewedPromotion(mr.getValue()))
-                   {
-                       da.deleteLogEntry(mr.getId());
-                   }
+                        da.open();
+                        LogData[] logs = da.upDateLogActivities();
 
+                        Util.logDebug(logs.length + " entries founded in log database update the server");
+                        for (LogData mr : logs) {
+                            if(dataPro.setViewedPromotion(mr.getValue()))
+                            {
+                                da.deleteLogEntry(mr.getId());
+                            }
+                        }
+                        Util.logDebug("update log data successfully ");
+                        da.close();
+                    } catch (Exception e) {
+                        Util.logError("Update service error ");
+                        Util.logError("Error is "+e.getMessage());
+                    } finally {
+
+                    }
                 }
-                da.close();
-            } catch (Exception e) {
-                Util.logError("Update service error");
-            } finally {
-
-            }
+            });
+            t.start();
         }
         stopSelf();
         return Service.START_STICKY;
     }
-
 
     @Override
     public void onDestroy() {

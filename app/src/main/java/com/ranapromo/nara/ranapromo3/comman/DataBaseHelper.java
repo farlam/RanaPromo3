@@ -613,14 +613,15 @@ public class DataBaseHelper {
             log.setAction(c.getString(c.getColumnIndex(LOG_ACTION)));
             log.setValue(c.getInt(c.getColumnIndex(LOG_VALUE)));
             log.setTableName(c.getString(c.getColumnIndex(LOG_TABLE)));
+            log.setId(c.getInt(c.getColumnIndex(LOG_ID)));
             proms.add(log);
         }
         return proms.toArray(new LogData[proms.size()]);
     }
 
-
     public void deleteLogEntry(int id) {
-        Util.logError("Delete enty with id ="+id);
+        Util.logDebug("Delete enty with id =" + id);
+        ourDataBase.delete(LOG_ACTIVITY_TABLE, LOG_ID + " = ?", new String[]{Integer.toString(id)});
     }
 
 

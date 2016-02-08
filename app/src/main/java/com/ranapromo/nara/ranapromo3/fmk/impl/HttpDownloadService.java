@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import android.content.Context;
+import android.content.Intent;
 
 import com.ranapromo.nara.ranapromo3.Data.Lancement;
 import com.ranapromo.nara.ranapromo3.Data.Marque;
@@ -16,6 +17,7 @@ import com.ranapromo.nara.ranapromo3.comman.Holder;
 import com.ranapromo.nara.ranapromo3.comman.Util;
 import com.ranapromo.nara.ranapromo3.fmk.IDateService;
 import com.ranapromo.nara.ranapromo3.fmk.IDownloadHandler;
+import com.ranapromo.nara.ranapromo3.fmk.UpdaterService;
 import com.ranapromo.nara.ranapromo3.fmk.impl.DataProviderImpl3;
 import com.ranapromo.nara.ranapromo3.fmk.impl.DateServiceImpl;
 
@@ -109,6 +111,9 @@ public class HttpDownloadService implements IDownloadHandler {
         }
 
         da.close();
+
+
+        //Intent int
     }
 
 
